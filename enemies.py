@@ -4,19 +4,18 @@ import random
 import time
 
 class Enemy(ABC):
-    def __init__(self, name: str, health: float, attacks: list[Attack]):
+    def __init__(self, name: str, health: int, attacks: list[Attack]):
         self.name = name
         self.health = health
+        self.max_health = health
         self.attacks = attacks
 
-    def attack(self):
+    def select_attack(self) -> Attack:
         # Attack message
-        print(f'{self.name} attacks.')
+        print(f"{self.name}'s turn.")
         time.sleep(1)
-
-        # Select random attack from enemy and display info to user
         selected_attack = random.choice(self.attacks)
-        print(f'{self.name} uses {selected_attack.name} for {selected_attack.damage} damage!')
+        return selected_attack
 
 class Skeleton(Enemy):
     name = "Skeleton"
@@ -54,10 +53,3 @@ class Zombie(Enemy):
 
     def __init__(self):
         super().__init__(self.name, self.health, self.attacks)
-
-
-enemies: list[Enemy] = [Skeleton(), Dragon(), Zombie()]
-
-for enemy in enemies:
-    enemy.attack()
-    print()
