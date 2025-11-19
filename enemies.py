@@ -19,7 +19,7 @@ class Enemy(ABC):
 
 class Skeleton(Enemy):
     name = "Skeleton"
-    health = 100
+    health = 75
     attacks = [
         Attack("Slash", 5),
         Attack("Bone Throw", 4),
@@ -32,7 +32,7 @@ class Skeleton(Enemy):
 
 class Dragon(Enemy):
     name = "Dragon"
-    health = 150
+    health = 100
     attacks = [
         Attack("Fire Breath", 8),
         Attack("Tail Swipe", 6),
@@ -53,3 +53,16 @@ class Zombie(Enemy):
 
     def __init__(self):
         super().__init__(self.name, self.health, self.attacks)
+
+
+# Registry of all available enemy class types
+AVAILABLE_ENEMIES: list[type[Enemy]] = [
+    Skeleton,
+    Dragon,
+    Zombie
+]
+
+# Used when player lands on an enemy tile, retrieves a random enemy
+def get_random_enemy() -> Enemy:
+    enemy = random.choice(AVAILABLE_ENEMIES)
+    return enemy()

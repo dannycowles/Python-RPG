@@ -1,7 +1,8 @@
 from attack import Attack
 import random
 
-from item import Item, HealthPotion
+from item import Item, HealthPotion, DamagePotion
+import time
 
 
 class Player:
@@ -16,7 +17,8 @@ class Player:
             Attack("Bow", 8)
         ]
         self.items: list[Item] = [
-            HealthPotion(50)
+            HealthPotion(),
+            DamagePotion()
         ]
 
     def select_attack(self) -> Attack | None:
@@ -55,8 +57,14 @@ class Player:
             else:
                 print("Invalid action")
 
+    def pickup_item(self, item: Item):
+        self.items.append(item)
+        print(f"You picked up a {item.name}!")
+
 
     def roll_dice(self):
+        print("Rolling dice...")
+        time.sleep(1)
         roll = random.randint(1, 6)
         print(f"You rolled a {roll}")
         self.board_position += roll

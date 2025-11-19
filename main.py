@@ -1,30 +1,28 @@
 from board import Board
-from player import Player
 from tile import *
-from battle import *
+import time
 
 
 def main():
-    # Game loop testing
     player_name = input("Enter your name: ")
     player = Player(player_name)
     board = Board()
 
-    # Roll dice and get tile that player lands on
-    player.roll_dice()
-    landed_tile = board.get_tile(player.board_position)
+    while True:
+        # Roll dice and get tile that player lands on
+        player.roll_dice()
 
-    # Perform action based on tile landed on
-    match landed_tile:
-        case EnemyTile():
-            battle(player, landed_tile.enemy)
-        # case TrapTile():
-        #     print("trap tile")
-        # case ItemTile():
-        #     print("item tile")
-        # case EmptyTile():
-        #     print("You landed on an empty tile, you are safe!")
+        # If the player has reached the end of the board, they win!
+        if player.board_position >= len(board.tiles):
+            print(f"Congratulations {player.name}, you win!")
+            return
 
+        landed_tile = board.get_tile(player.board_position)
+
+        # Perform action based on type of tile the player lands on
+        landed_tile.on_land(player)
+        time.sleep(1)
+        input("Press any key to continue...")
 
 if __name__ == '__main__':
     main()
